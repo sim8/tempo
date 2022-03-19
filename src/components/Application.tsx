@@ -3,12 +3,12 @@ import ListsView from './ListsView';
 import TodosView from './TodosView';
 
 export default function Application () {
-  return <div className="flex">
-    <div className="bg-gray-800">
+  return <main className="h-full flex items-stretch">
+    <section className="flex-1 bg-gray-800">
       <ListsView />
-    </div>
-    <div className="bg-indigo-500">
+    </section>
+    <section className="flex-1 bg-indigo-500">
       <TodosView/>
-    </div>
-  </div>
+    </section>
+  </main>
 }
