@@ -2,7 +2,7 @@ import React from 'react';
 
 function TodoCheckbox({done = false}) {
   return (
-    <div className="w-4 h-4 rounded-full border-2 border-white ">
+    <div className="shrink-0 w-4 h-4 rounded-full border-2 border-white ">
 
     </div>
   );
