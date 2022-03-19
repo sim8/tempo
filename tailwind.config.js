@@ -4,7 +4,9 @@ module.exports = {
     "./src/**/*.tsx"
     ],
   theme: {
-    extend: {},
+    fontFamily: {
+      'Ubuntu Mono': ["Ubuntu Mono", "monospace"],
+    },
   },
   plugins: [],
 }
