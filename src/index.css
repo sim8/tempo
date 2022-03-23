@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Ubuntu Mono";
-  src: url("../src/assets/fonts/UbuntuMono-Regular.ttf") format("ttf")
+  font-family: 'Ubuntu Mono';
+  src: url('../src/assets/fonts/UbuntuMono-Regular.ttf') format('ttf');
 }
 
 body {
