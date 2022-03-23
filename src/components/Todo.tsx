@@ -1,4 +1,5 @@
 import React from 'react';
+import TodoCard from './TodoCard';
 
 function TodoCheckbox({ done = false }) {
   return (
@@ -14,9 +15,9 @@ export default function Todo({
   selected: boolean;
 }) {
   return (
-    <div className="flex items-center p-4 bg-slate-700 rounded-lg mb-2">
+    <TodoCard>
       <TodoCheckbox />
       <span className="ml-2">{todo}</span>
-    </div>
+    </TodoCard>
   );
 }
