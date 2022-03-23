@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import useIsHovering from '../hooks/useIsHovering';
 import Button from './basics/Button';
 import TodoCard from './TodoCard';
@@ -7,6 +7,15 @@ export default function TodoAffordanceAndEditor() {
   const [isHovering, mouseEventHandlers] = useIsHovering();
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState('');
+  const onAdd = useCallback(() => {
+    setEditorContent('');
+    setIsEditing(false);
+    // TODO
+  }, []);
+  const onCancel = useCallback(() => {
+    setEditorContent('');
+    setIsEditing(false);
+  }, []);
   if (isEditing) {
     return (
       <>
@@ -23,8 +32,12 @@ export default function TodoAffordanceAndEditor() {
           </span>
         </TodoCard>
         <div>
-          <Button className="bg-green-700">Add</Button>
-          <Button className="bg-slate-700 ml-1">Cancel</Button>
+          <Button className="bg-green-700" onClick={onAdd}>
+            Add
+          </Button>
+          <Button className="bg-slate-700 ml-1" onClick={onCancel}>
+            Cancel
+          </Button>
         </div>
       </>
     );
