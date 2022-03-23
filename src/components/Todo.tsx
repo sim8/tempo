@@ -15,7 +15,7 @@ export default function Todo({
   selected: boolean;
 }) {
   return (
-    <TodoCard>
+    <TodoCard className="bg-slate-700">
       <TodoCheckbox />
       <span className="ml-2">{todo}</span>
     </TodoCard>
