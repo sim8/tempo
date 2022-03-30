@@ -55,7 +55,10 @@
                 {
                   "html": "./src/index.html",
                   "js": "./src/renderer.ts",
-                  "name": "main_window"
+                  "name": "main_window",
+                  "preload": {
+                    "js": "./src/preload.ts"
+                  }
                 }
               ]
             }
@@ -91,6 +94,7 @@
   "dependencies": {
     "classnames": "^2.3.1",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
