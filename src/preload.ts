@@ -1,6 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-// what does this mean?
 contextBridge.exposeInMainWorld('electron', {
   store: {
     get(val: any) {
