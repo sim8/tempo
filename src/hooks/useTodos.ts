@@ -4,6 +4,7 @@ import { Todos, Todo, TodoList } from '../types';
 interface TodosState {
   todos: Todos;
   selectedTodoIndex: number;
+  isEditing: boolean;
 }
 
 enum ActionType {
@@ -44,13 +45,14 @@ function todosReducer(
       return {
         ...state,
         todos: state.todos.filter((__value, i) => i !== (payload as number)),
-        selectedTodoIndex: state.selectedTodoIndex - 1,
+        selectedTodoIndex: null,
       };
     }
     case ActionType.SELECT: {
       return {
         ...state,
         selectedTodoIndex: payload as number,
+        isEditing: state.selectedTodoIndex === payload ? true : state.isEditing,
       };
     }
     default:
@@ -63,25 +65,31 @@ export default function useTodos(
   onUpdateTodos: (nextTodos: Todo[]) => void
 ): {
   selectedTodoIndex: number;
+  isEditing: boolean;
   onUpdateTodo: (payload: { index: number; todo: Todo }) => void;
   onCreateTodo: (todo: Todo) => void;
   onDeleteTodo: (index: number) => void;
   onMarkTodoComplete: (index: number) => void;
   onSelectTodo: (index: number) => void;
 } {
-  const [selectedTodoIndex, setSelectedTodoIndex] = useState(0);
+  const [selectedTodoIndex, setSelectedTodoIndex] = useState<number | null>(
+    null
+  );
+  const [isEditing, setIsEditing] = useState(false);
 
   const makeAction = (actionType: ActionType) => (payload: unknown) => {
     const nextState = todosReducer(
-      { todos, selectedTodoIndex },
+      { todos, selectedTodoIndex, isEditing },
       { type: actionType, payload }
     );
     setSelectedTodoIndex(nextState.selectedTodoIndex);
+    setIsEditing(nextState.isEditing);
     onUpdateTodos(nextState.todos);
   };
 
   return {
     selectedTodoIndex,
+    isEditing,
     onUpdateTodo: makeAction(ActionType.UPDATE),
     onCreateTodo: makeAction(ActionType.CREATE),
     onDeleteTodo: makeAction(ActionType.DELETE),

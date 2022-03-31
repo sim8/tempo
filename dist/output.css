@@ -664,6 +664,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   outline-offset: 2px;
 }
 
+.outline {
+  outline-style: solid;
+}
+
+.outline-2 {
+  outline-width: 2px;
+}
+
+.outline-white {
+  outline-color: #fff;
+}
+
 @font-face {
   font-family: 'Ubuntu Mono';
 

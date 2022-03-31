@@ -11,23 +11,34 @@ export default function TodosView({
   todos: Todo[];
   onUpdateTodos: (todos: Todo[]) => void;
 }) {
-  const { onCreateTodo, onMarkTodoComplete } = useTodos(todos, onUpdateTodos);
-  const selectedTodo = todos[0];
+  const {
+    onCreateTodo,
+    onSelectTodo,
+    onMarkTodoComplete,
+    selectedTodoIndex,
+    isEditing,
+  } = useTodos(todos, onUpdateTodos);
   return (
     <div className="p-4 pt-8 flex flex-col h-full">
       <ul>
-        {todos.map((todo, index) => (
-          <li
-            key={todo}
-            className={todo === selectedTodo ? 'text-white' : 'text-slate-200'}
-          >
-            <TodoCard
-              todo={todo}
-              selected={todo === selectedTodo}
-              onToggleComplete={() => onMarkTodoComplete(index)}
-            />
-          </li>
-        ))}
+        {todos.map((todo, index) => {
+          const isSelected = selectedTodoIndex === index;
+          return (
+            <li
+              key={todo}
+              className={isSelected ? 'text-white' : 'text-slate-200'}
+            >
+              <TodoCard
+                todo={todo}
+                selected={isSelected}
+                onClick={() => {
+                  onSelectTodo(index);
+                }}
+                onToggleComplete={() => onMarkTodoComplete(index)}
+              />
+            </li>
+          );
+        })}
       </ul>
       <TodoAffordanceAndEditor onCreate={onCreateTodo} />
     </div>
