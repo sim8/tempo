@@ -85,6 +85,7 @@
     "electron": "17.1.2",
     "eslint": "^8.11.0",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-react-hooks": "^4.4.0",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
     "jest": "^27.5.1",
     "node-loader": "^2.0.0",

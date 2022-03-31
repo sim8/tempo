@@ -106,7 +106,7 @@ export default function useLists(): {
         },
       });
     },
-    [onUpdateList, selectedListIndex] // not getting intellisense for missing deps?
+    [lists, onUpdateList, selectedListIndex]
   );
 
   return {
