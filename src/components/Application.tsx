@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import ListsView from './ListsView';
 import PersistenceProvider from './PersistenceProvider';
 import TodosView from './TodosView';
 import useLists from '../hooks/useLists';
+import { Todo } from '../types';
 
 export default function Application() {
   const {
@@ -12,7 +13,9 @@ export default function Application() {
     onCreateList,
     onDeleteList,
     onSelectList,
+    onUpdateTodos,
   } = useLists();
+
   return (
     <PersistenceProvider>
       <main className="h-full flex items-stretch">
@@ -24,9 +27,12 @@ export default function Application() {
           />
         </section>
         <section className="flex-1 bg-indigo-500">
-          <TodosView
-            todos={lists[selectedListIndex] && lists[selectedListIndex].todos}
-          />
+          {lists[selectedListIndex] && (
+            <TodosView
+              todos={lists[selectedListIndex].todos}
+              onUpdateTodos={onUpdateTodos}
+            />
+          )}
         </section>
       </main>
     </PersistenceProvider>

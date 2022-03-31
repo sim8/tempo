@@ -2,16 +2,22 @@ import React, { useState, useCallback } from 'react';
 import useIsHovering from '../hooks/useIsHovering';
 import Button from './basics/Button';
 import TodoCard from './TodoCard';
+import { Todo } from '../types';
+import classNames from 'classnames';
 
-export default function TodoAffordanceAndEditor() {
+export default function TodoAffordanceAndEditor({
+  onCreate,
+}: {
+  onCreate: (todo: Todo) => void;
+}) {
   const [isHovering, mouseEventHandlers] = useIsHovering();
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState('');
   const onAdd = useCallback(() => {
+    onCreate(editorContent);
     setEditorContent('');
     setIsEditing(false);
-    // TODO
-  }, []);
+  }, [onCreate, editorContent]);
   const onCancel = useCallback(() => {
     setEditorContent('');
     setIsEditing(false);
@@ -44,7 +50,9 @@ export default function TodoAffordanceAndEditor() {
   }
   return (
     <div
-      className="grow relative cursor-pointer"
+      className={classNames('grow relative', {
+        'cursor-pointer': isHovering,
+      })}
       {...mouseEventHandlers}
       onClick={() => setIsEditing(true)}
     >

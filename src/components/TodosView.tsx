@@ -1,23 +1,35 @@
 import React from 'react';
-import { Todos } from '../types';
-import Todo from './Todo';
+import useTodos from '../hooks/useTodos';
+import { Todo } from '../types';
+import TodoCard from './Todo'; // rename?
 import TodoAffordanceAndEditor from './TodoAffordanceAndEditor';
 
-export default function TodosView({ todos }: { todos: Todos }) {
+export default function TodosView({
+  todos,
+  onUpdateTodos,
+}: {
+  todos: Todo[];
+  onUpdateTodos: (todos: Todo[]) => void;
+}) {
+  const { onCreateTodo, onMarkTodoComplete } = useTodos(todos, onUpdateTodos);
   const selectedTodo = todos[0];
   return (
     <div className="p-4 pt-8 flex flex-col h-full">
       <ul>
-        {todos.map(todo => (
+        {todos.map((todo, index) => (
           <li
             key={todo}
             className={todo === selectedTodo ? 'text-white' : 'text-slate-200'}
           >
-            <Todo todo={todo} selected={todo === selectedTodo} />
+            <TodoCard
+              todo={todo}
+              selected={todo === selectedTodo}
+              onToggleComplete={() => onMarkTodoComplete(index)}
+            />
           </li>
         ))}
       </ul>
-      <TodoAffordanceAndEditor />
+      <TodoAffordanceAndEditor onCreate={onCreateTodo} />
     </div>
   );
 }

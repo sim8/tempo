@@ -1,5 +1,5 @@
-import { useReducer } from 'react';
-import { TodoList } from '../types';
+import { useReducer, useCallback } from 'react';
+import { TodoList, Todo } from '../types';
 
 const INITIAL_STATE = {
   lists: [
@@ -81,6 +81,7 @@ export default function useLists(): {
   onCreateList: (list: TodoList) => void;
   onDeleteList: (index: number) => void;
   onSelectList: (index: number) => void;
+  onUpdateTodos: (todos: Todo[]) => void;
 } {
   const [{ lists, selectedListIndex }, dispatch] = useReducer(
     listsReducer,
@@ -90,12 +91,31 @@ export default function useLists(): {
   const makeAction = (actionType: ActionType) => (payload: unknown) =>
     dispatch({ type: actionType, payload });
 
+  const onUpdateList = makeAction(ActionType.UPDATE);
+
+  /**
+   * Helper for updating Todos on TodoList
+   */
+  const onUpdateTodos = useCallback(
+    (todos: Todo[]) => {
+      onUpdateList({
+        index: selectedListIndex,
+        list: {
+          ...lists[selectedListIndex],
+          todos,
+        },
+      });
+    },
+    [onUpdateList, selectedListIndex] // not getting intellisense for missing deps?
+  );
+
   return {
     lists,
     selectedListIndex,
-    onUpdateList: makeAction(ActionType.UPDATE),
+    onUpdateList,
     onCreateList: makeAction(ActionType.CREATE),
     onDeleteList: makeAction(ActionType.DELETE),
     onSelectList: makeAction(ActionType.SELECT),
+    onUpdateTodos,
   };
 }
