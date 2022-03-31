@@ -3,7 +3,7 @@ import React, { useState, useMemo } from 'react';
 export default function useIsHovering(): [
   boolean,
   {
-    onMouseEnter: React.MouseEventHandler;
+    onMouseMove: React.MouseEventHandler;
     onMouseLeave: React.MouseEventHandler;
   }
 ] {
@@ -11,7 +11,7 @@ export default function useIsHovering(): [
 
   const mouseEventHandlers = useMemo(
     () => ({
-      onMouseEnter: () => {
+      onMouseMove: () => {
         setIsHovering(true);
       },
       onMouseLeave: () => {
