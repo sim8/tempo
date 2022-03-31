@@ -1,19 +1,14 @@
 import React from 'react';
+import { Todos } from '../types';
 import Todo from './Todo';
 import TodoAffordanceAndEditor from './TodoAffordanceAndEditor';
 
-export default function TodosView() {
-  const MOCK_TODOS = [
-    'Read emails',
-    'Make progress on prototype',
-    'Rough structure for presentation',
-    'Plan team celebration',
-  ];
-  const selectedTodo = MOCK_TODOS[2];
+export default function TodosView({ todos }: { todos: Todos }) {
+  const selectedTodo = todos[0];
   return (
     <div className="p-4 pt-8 flex flex-col h-full">
       <ul>
-        {MOCK_TODOS.map(todo => (
+        {todos.map(todo => (
           <li
             key={todo}
             className={todo === selectedTodo ? 'text-white' : 'text-slate-200'}

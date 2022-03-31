@@ -29,6 +29,7 @@ enum ActionType {
   CREATE,
   UPDATE,
   DELETE,
+  SELECT,
 }
 
 interface Action {
@@ -62,21 +63,39 @@ function listsReducer(
         selectedListIndex: state.selectedListIndex - 1,
       };
     }
+    case ActionType.SELECT: {
+      return {
+        ...state,
+        selectedListIndex: payload as number,
+      };
+    }
     default:
       return state;
   }
 }
 
-export default function useLists() {
-  const [lists, dispatch] = useReducer(listsReducer, INITIAL_STATE);
+export default function useLists(): {
+  lists: TodoList[];
+  selectedListIndex: number;
+  onUpdateList: (payload: { index: number; list: TodoList }) => void;
+  onCreateList: (list: TodoList) => void;
+  onDeleteList: (index: number) => void;
+  onSelectList: (index: number) => void;
+} {
+  const [{ lists, selectedListIndex }, dispatch] = useReducer(
+    listsReducer,
+    INITIAL_STATE
+  );
 
   const makeAction = (actionType: ActionType) => (payload: unknown) =>
     dispatch({ type: actionType, payload });
 
   return {
     lists,
+    selectedListIndex,
     onUpdateList: makeAction(ActionType.UPDATE),
     onCreateList: makeAction(ActionType.CREATE),
     onDeleteList: makeAction(ActionType.DELETE),
+    onSelectList: makeAction(ActionType.SELECT),
   };
 }

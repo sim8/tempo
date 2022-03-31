@@ -1,22 +1,38 @@
 import React from 'react';
 import classNames from 'classnames';
+import { TodoList } from '../types';
 
-export default function ListsView() {
-  const MOCK_LISTS = ['Inbox', 'Backlog', 'Code'];
-  const selectedList = MOCK_LISTS[0];
+export default function ListsView({
+  lists,
+  selectedListIndex,
+  onSelect,
+}: {
+  lists: TodoList[];
+  selectedListIndex: number;
+  onSelect: (index: number) => void;
+}) {
   return (
     <ul className="text-5xl m-20">
-      {MOCK_LISTS.map(list => (
-        <li
-          key={list}
-          className={classNames('mb-8', {
-            'text-white': list === selectedList,
-            'text-slate-400': list !== selectedList,
-          })}
-        >
-          {list}
-        </li>
-      ))}
+      {lists.map(({ name }, index) => {
+        const isSelected = index === selectedListIndex;
+        return (
+          <li
+            key={name}
+            onClick={() => {
+              if (!isSelected) {
+                onSelect(index);
+              }
+            }}
+            className={classNames('mb-8 hover:text-white', {
+              'text-white': isSelected,
+              'text-slate-400': !isSelected,
+              'cursor-pointer': !isSelected,
+            })}
+          >
+            {name}
+          </li>
+        );
+      })}
     </ul>
   );
 }
