@@ -3,7 +3,7 @@ import Button from './basics/Button';
 import TodoCard from './TodoCard';
 import { Todo } from '../types';
 
-enum EditorType {
+export enum EditorType {
   CREATE,
   UPDATE,
 }
@@ -20,8 +20,10 @@ export default function TodoEditor({
   initialState?: Todo;
 }) {
   const [editorContent, setEditorContent] = useState<Todo>(initialState);
-  const onAdd = useCallback(() => {
-    onSave(editorContent);
+  const onClickSave = useCallback(() => {
+    if (editorContent) {
+      onSave(editorContent);
+    }
   }, [onSave, editorContent]);
 
   const onBlur = useCallback(() => {
@@ -45,7 +47,7 @@ export default function TodoEditor({
         </span>
       </TodoCard>
       <div>
-        <Button className="bg-green-700" onClick={onAdd}>
+        <Button className="bg-green-700" onClick={onClickSave}>
           {editorType === EditorType.UPDATE ? 'Save' : 'Add'}
         </Button>
         <Button className="bg-slate-700 ml-1" onClick={onCancel}>

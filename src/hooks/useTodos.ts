@@ -31,14 +31,16 @@ function todosReducer(
       return {
         ...state,
         todos: state.todos.concat(payload as Todo),
-        selectedTodoIndex: state.todos.length + 1,
+        isEditing: false,
       };
     }
     case ActionType.UPDATE: {
-      const { index, list } = payload as { index: number; list: Todo };
+      const { index, todo } = payload as { index: number; todo: Todo };
       return {
         ...state,
-        todos: Object.assign([], state.todos, { [index]: list }),
+        todos: Object.assign([], state.todos, { [index]: todo }),
+        selectedTodoIndex: null,
+        isEditing: false,
       };
     }
     case ActionType.DELETE:

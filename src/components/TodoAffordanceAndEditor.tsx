@@ -1,6 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import useIsHovering from '../hooks/useIsHovering';
-import Button from './basics/Button';
 import TodoCard from './TodoCard';
 import { Todo } from '../types';
 import classNames from 'classnames';

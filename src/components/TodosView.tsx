@@ -3,6 +3,7 @@ import useTodos from '../hooks/useTodos';
 import { Todo } from '../types';
 import TodoCard from './Todo'; // rename?
 import TodoAffordanceAndEditor from './TodoAffordanceAndEditor';
+import TodoEditor, { EditorType } from './TodoEditor';
 
 export default function TodosView({
   todos,
@@ -14,6 +15,7 @@ export default function TodosView({
   const {
     onCreateTodo,
     onSelectTodo,
+    onUpdateTodo,
     onMarkTodoComplete,
     selectedTodoIndex,
     onStartEditing,
@@ -30,14 +32,23 @@ export default function TodosView({
               key={todo}
               className={isSelected ? 'text-white' : 'text-slate-200'}
             >
-              <TodoCard
-                todo={todo}
-                selected={isSelected}
-                onClick={() => {
-                  onSelectTodo(index);
-                }}
-                onToggleComplete={() => onMarkTodoComplete(index)}
-              />
+              {isEditing && isSelected ? (
+                <TodoEditor
+                  onSave={next => onUpdateTodo({ index, todo: next })}
+                  onCancel={onStopEditing}
+                  editorType={EditorType.UPDATE}
+                  initialState={todo}
+                />
+              ) : (
+                <TodoCard
+                  todo={todo}
+                  selected={isSelected}
+                  onClick={() => {
+                    onSelectTodo(index);
+                  }}
+                  onToggleComplete={() => onMarkTodoComplete(index)}
+                />
+              )}
             </li>
           );
         })}
@@ -45,7 +56,7 @@ export default function TodosView({
       <TodoAffordanceAndEditor
         onCreate={onCreateTodo}
         onCancel={onStopEditing}
-        isCreating={isEditing && !selectedTodoIndex}
+        isCreating={isEditing && selectedTodoIndex === null}
         onStartCreating={() => onStartEditing(null)}
       />
     </div>
