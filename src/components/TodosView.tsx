@@ -16,6 +16,8 @@ export default function TodosView({
     onSelectTodo,
     onMarkTodoComplete,
     selectedTodoIndex,
+    onStartEditing,
+    onStopEditing,
     isEditing,
   } = useTodos(todos, onUpdateTodos);
   return (
@@ -40,7 +42,12 @@ export default function TodosView({
           );
         })}
       </ul>
-      <TodoAffordanceAndEditor onCreate={onCreateTodo} />
+      <TodoAffordanceAndEditor
+        onCreate={onCreateTodo}
+        onCancel={onStopEditing}
+        isCreating={isEditing && !selectedTodoIndex}
+        onStartCreating={() => onStartEditing(null)}
+      />
     </div>
   );
 }

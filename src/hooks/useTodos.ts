@@ -13,6 +13,8 @@ enum ActionType {
   DELETE,
   SELECT,
   MARK_COMPLETE,
+  START_EDITING,
+  STOP_EDITING,
 }
 
 interface Action {
@@ -48,11 +50,26 @@ function todosReducer(
         selectedTodoIndex: null,
       };
     }
+    // TODO do we need both select and start editing?
     case ActionType.SELECT: {
       return {
         ...state,
         selectedTodoIndex: payload as number,
         isEditing: state.selectedTodoIndex === payload ? true : state.isEditing,
+      };
+    }
+    case ActionType.START_EDITING: {
+      return {
+        ...state,
+        isEditing: true,
+        selectedTodoIndex: (payload as number) || null,
+      };
+    }
+    case ActionType.STOP_EDITING: {
+      return {
+        ...state,
+        isEditing: false,
+        selectedTodoIndex: null,
       };
     }
     default:
@@ -71,13 +88,15 @@ export default function useTodos(
   onDeleteTodo: (index: number) => void;
   onMarkTodoComplete: (index: number) => void;
   onSelectTodo: (index: number) => void;
+  onStartEditing: (index?: number) => void;
+  onStopEditing: () => void;
 } {
   const [selectedTodoIndex, setSelectedTodoIndex] = useState<number | null>(
     null
   );
   const [isEditing, setIsEditing] = useState(false);
 
-  const makeAction = (actionType: ActionType) => (payload: unknown) => {
+  const makeAction = (actionType: ActionType) => (payload?: unknown) => {
     const nextState = todosReducer(
       { todos, selectedTodoIndex, isEditing },
       { type: actionType, payload }
@@ -95,5 +114,7 @@ export default function useTodos(
     onDeleteTodo: makeAction(ActionType.DELETE),
     onMarkTodoComplete: makeAction(ActionType.MARK_COMPLETE),
     onSelectTodo: makeAction(ActionType.SELECT),
+    onStartEditing: makeAction(ActionType.START_EDITING),
+    onStopEditing: makeAction(ActionType.STOP_EDITING),
   };
 }
