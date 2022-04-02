@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Todos, Todo, TodoList } from '../types';
+import { Todos, Todo } from '../types';
 
 interface TodosState {
   todos: Todos;
