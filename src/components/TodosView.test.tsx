@@ -52,8 +52,10 @@ describe('TodosViews', () => {
     render(<TodosViewWrapper />);
     // none selected by default
     expect(screen.queryByTestId('selected-todo')).toBeNull();
+    const firstTodo = screen.getByText('Todo 1');
+    userEvent.click(firstTodo);
+    expect(screen.queryByTestId('selected-todo')).toBeTruthy();
   });
-  // can select todo
   // can update todo
   // can mark todo complete
 });
