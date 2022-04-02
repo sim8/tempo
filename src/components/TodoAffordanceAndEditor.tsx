@@ -28,6 +28,7 @@ export default function TodoAffordanceAndEditor({
       })}
       {...mouseEventHandlers}
       onClick={onStartCreating}
+      data-testid="todo-affordance"
     >
       {isHovering && (
         <TodoCard className="bg-slate-700/50 border-dashed border-2 border-white">

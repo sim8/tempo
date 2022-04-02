@@ -42,6 +42,7 @@ export default function TodoEditor({
             onBlur={onBlur}
             onChange={e => setEditorContent(e.target.value)}
             value={editorContent}
+            data-testid="todo-name-input"
             autoFocus
           />
         </span>

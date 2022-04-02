@@ -31,6 +31,7 @@ export default function Todo({
         'outline outline-2 outline-white': selected,
       })}
       onClick={onClick}
+      data-testid={selected ? 'selected-todo' : undefined}
     >
       <TodoCheckbox onClick={onToggleComplete} />
       <span className="ml-2">{todo}</span>

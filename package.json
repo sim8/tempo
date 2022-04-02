@@ -12,7 +12,8 @@
     "lint": "eslint --ext .ts,.tsx .",
     "tailwind-watch": "npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
     "prettier-format": "prettier --config .prettierrc 'src/' --write",
-    "test": "jest"
+    "test": "jest",
+    "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "keywords": [],
   "author": {
