@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from './basics/Button';
-import TodoCard from './TodoCard';
 import AbstractEditor, { EditorProps } from './AbstractEditor';
 
 export enum EditorType {
@@ -8,7 +7,7 @@ export enum EditorType {
   UPDATE,
 }
 
-export default function TodoEditor({ ...editorProps }: EditorProps) {
+export default function ListEditor({ ...editorProps }: EditorProps) {
   const { editorType } = editorProps;
 
   return (
@@ -16,15 +15,13 @@ export default function TodoEditor({ ...editorProps }: EditorProps) {
       {...editorProps}
       render={({ inputProps, saveButtonProps, cancelButtonProps }) => (
         <>
-          <TodoCard className="bg-slate-700/50 border-solid border-2 border-white">
-            <span className="ml-2 text-white">
-              <input
-                {...inputProps}
-                className="border-none outline-none bg-transparent"
-                data-testid="todo-name-input"
-              />
-            </span>
-          </TodoCard>
+          <span className="ml-2 text-white">
+            <input
+              {...inputProps}
+              className="border-none outline-none bg-transparent"
+              data-testid="list-name-input"
+            />
+          </span>
           <div>
             <Button {...saveButtonProps} className="bg-green-700">
               {editorType === EditorType.UPDATE ? 'Save' : 'Add'}

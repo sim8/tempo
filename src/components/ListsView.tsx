@@ -12,27 +12,29 @@ export default function ListsView({
   onSelect: (index: number) => void;
 }) {
   return (
-    <ul className="text-5xl m-20">
-      {lists.map(({ name }, index) => {
-        const isSelected = index === selectedListIndex;
-        return (
-          <li
-            key={name}
-            onClick={() => {
-              if (!isSelected) {
-                onSelect(index);
-              }
-            }}
-            className={classNames('mb-8 hover:text-white', {
-              'text-white': isSelected,
-              'text-slate-400': !isSelected,
-              'cursor-pointer': !isSelected,
-            })}
-          >
-            {name}
-          </li>
-        );
-      })}
-    </ul>
+    <div className="text-5xl m-20">
+      <ul>
+        {lists.map(({ name }, index) => {
+          const isSelected = index === selectedListIndex;
+          return (
+            <li
+              key={name}
+              onClick={() => {
+                if (!isSelected) {
+                  onSelect(index);
+                }
+              }}
+              className={classNames('mb-8 hover:text-white', {
+                'text-white': isSelected,
+                'text-slate-400': !isSelected,
+                'cursor-pointer': !isSelected,
+              })}
+            >
+              {name}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
