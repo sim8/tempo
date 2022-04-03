@@ -5,6 +5,8 @@ import TodoCard from './TodoCard';
 function TodoCheckbox({ onClick }: { onClick: () => void }) {
   return (
     <div
+      role="checkbox"
+      aria-checked={false}
       className="shrink-0 w-4 h-4 rounded-full border-2 border-white cursor-pointer"
       onClick={e => {
         onClick();

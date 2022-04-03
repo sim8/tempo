@@ -56,6 +56,36 @@ describe('TodosViews', () => {
     userEvent.click(firstTodo);
     expect(screen.queryByTestId('selected-todo')).toBeTruthy();
   });
-  // can update todo
-  // can mark todo complete
+
+  test('can update todo', () => {
+    render(<TodosViewWrapper />);
+    // none selected by default
+    expect(screen.queryByTestId('selected-todo')).toBeNull();
+    const firstTodo = screen.getByText('Todo 1');
+    // Input is not visible
+    expect(screen.queryByTestId('todo-name-input')).toBeNull();
+    userEvent.dblClick(firstTodo);
+    // Input is visible
+    expect(screen.queryByTestId('todo-name-input')).toBeTruthy();
+
+    // Type todo name
+    const todoInput = screen.getByTestId('todo-name-input');
+    userEvent.type(todoInput, ':UPDATED');
+
+    // Save todo
+    const saveButton = screen.getByText('Save');
+    userEvent.click(saveButton);
+
+    // Input is not visible
+    expect(screen.queryByTestId('todo-name-input')).toBeNull();
+    // Todo updated
+    expect(screen.queryByText('Todo 1:UPDATED')).toBeTruthy();
+  });
+
+  test('can mark todo complete', () => {
+    render(<TodosViewWrapper />);
+    const checkboxes = screen.getAllByRole('checkbox');
+    userEvent.click(checkboxes[0]);
+    expect(screen.queryByText('Todo 1')).toBeNull();
+  });
 });
