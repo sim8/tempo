@@ -7,21 +7,19 @@ export enum EditorType {
   UPDATE,
 }
 
-export default function ListEditor({ ...editorProps }: EditorProps) {
-  const { editorType } = editorProps;
+export default function ListNameEditor({ ...editorProps }: EditorProps) {
+  const { editorType = EditorType.CREATE } = editorProps;
 
   return (
     <AbstractEditor
       {...editorProps}
       render={({ inputProps, saveButtonProps, cancelButtonProps }) => (
         <>
-          <span className="ml-2 text-white">
-            <input
-              {...inputProps}
-              className="border-none outline-none bg-transparent"
-              data-testid="list-name-input"
-            />
-          </span>
+          <input
+            {...inputProps}
+            className="border-none outline-none bg-transparent"
+            data-testid="list-name-input"
+          />
           <div>
             <Button {...saveButtonProps} className="bg-green-700">
               {editorType === EditorType.UPDATE ? 'Save' : 'Add'}

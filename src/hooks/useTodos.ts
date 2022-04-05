@@ -57,7 +57,7 @@ function todosReducer(
       return {
         ...state,
         selectedTodoIndex: payload as number,
-        isEditing: state.selectedTodoIndex === payload ? true : state.isEditing,
+        isEditing: state.selectedTodoIndex === payload ? true : false,
       };
     }
     case ActionType.START_EDITING: {

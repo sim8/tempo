@@ -18,11 +18,15 @@ const INITIAL_STATE = {
     },
   ],
   selectedListIndex: 0,
+  isCreating: false,
+  isUpdating: false,
 };
 
 interface ListsState {
   lists: TodoList[];
   selectedListIndex: number;
+  isCreating: boolean;
+  isUpdating: boolean;
 }
 
 enum ActionType {
@@ -30,6 +34,9 @@ enum ActionType {
   UPDATE,
   DELETE,
   SELECT,
+  START_CREATING,
+  START_UPDATING,
+  STOP_EDITING,
 }
 
 interface Action {
@@ -45,15 +52,28 @@ function listsReducer(
     case ActionType.CREATE: {
       return {
         ...state,
-        lists: state.lists.concat(payload as TodoList),
+        lists: state.lists.concat({
+          todos: [],
+          ...(payload as object),
+        } as TodoList),
         selectedListIndex: state.lists.length + 1,
+        isCreating: false,
       };
     }
     case ActionType.UPDATE: {
-      const { index, list } = payload as { index: number; list: TodoList };
+      const { index, fieldsToUpdate } = payload as {
+        index: number;
+        fieldsToUpdate: Partial<TodoList>;
+      };
       return {
         ...state,
-        lists: Object.assign([], state.lists, { [index]: list }),
+        lists: Object.assign([], state.lists, {
+          [index]: {
+            ...state.lists[index],
+            ...fieldsToUpdate,
+          },
+        }),
+        isUpdating: false,
       };
     }
     case ActionType.DELETE: {
@@ -61,12 +81,35 @@ function listsReducer(
         ...state,
         lists: state.lists.filter((__value, i) => i !== (payload as number)),
         selectedListIndex: state.selectedListIndex - 1,
+        isUpdating: false,
       };
     }
     case ActionType.SELECT: {
       return {
         ...state,
         selectedListIndex: payload as number,
+        isUpdating: state.selectedListIndex === payload ? true : false,
+      };
+    }
+    case ActionType.START_CREATING: {
+      return {
+        ...state,
+        isCreating: true,
+        isUpdating: false,
+      };
+    }
+    case ActionType.START_UPDATING: {
+      return {
+        ...state,
+        isUpdating: true,
+        isCreating: false,
+      };
+    }
+    case ActionType.STOP_EDITING: {
+      return {
+        ...state,
+        isUpdating: false,
+        isCreating: false,
       };
     }
     default:
@@ -77,45 +120,36 @@ function listsReducer(
 export default function useLists(): {
   lists: TodoList[];
   selectedListIndex: number;
-  onUpdateList: (payload: { index: number; list: TodoList }) => void;
-  onCreateList: (list: TodoList) => void;
+  isCreating: boolean;
+  isUpdating: boolean;
+  onCreateList: (partialList: Partial<TodoList>) => void;
+  onUpdateList: (payload: {
+    index: number;
+    fieldsToUpdate: Partial<TodoList>;
+  }) => void;
   onDeleteList: (index: number) => void;
   onSelectList: (index: number) => void;
-  onUpdateTodos: (todos: Todo[]) => void;
+  onStartCreating: () => void;
+  onStartUpdating: (index: number) => void;
+  onStopEditing: () => void;
 } {
-  const [{ lists, selectedListIndex }, dispatch] = useReducer(
-    listsReducer,
-    INITIAL_STATE
-  );
+  const [{ lists, selectedListIndex, isCreating, isUpdating }, dispatch] =
+    useReducer(listsReducer, INITIAL_STATE);
 
-  const makeAction = (actionType: ActionType) => (payload: unknown) =>
+  const makeAction = (actionType: ActionType) => (payload?: unknown) =>
     dispatch({ type: actionType, payload });
-
-  const onUpdateList = makeAction(ActionType.UPDATE);
-
-  /**
-   * Helper for updating Todos on TodoList
-   */
-  const onUpdateTodos = useCallback(
-    (todos: Todo[]) => {
-      onUpdateList({
-        index: selectedListIndex,
-        list: {
-          ...lists[selectedListIndex],
-          todos,
-        },
-      });
-    },
-    [lists, onUpdateList, selectedListIndex]
-  );
 
   return {
     lists,
     selectedListIndex,
-    onUpdateList,
+    isCreating,
+    isUpdating,
     onCreateList: makeAction(ActionType.CREATE),
+    onUpdateList: makeAction(ActionType.UPDATE),
     onDeleteList: makeAction(ActionType.DELETE),
     onSelectList: makeAction(ActionType.SELECT),
-    onUpdateTodos,
+    onStartCreating: makeAction(ActionType.START_CREATING),
+    onStartUpdating: makeAction(ActionType.START_UPDATING),
+    onStopEditing: makeAction(ActionType.STOP_EDITING),
   };
 }

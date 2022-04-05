@@ -9,11 +9,15 @@ export default function Application() {
   const {
     lists,
     selectedListIndex,
+    isCreating,
+    isUpdating,
     onUpdateList,
     onCreateList,
     onDeleteList,
     onSelectList,
-    onUpdateTodos,
+    onStartCreating,
+    onStartUpdating,
+    onStopEditing,
   } = useLists();
 
   return (
@@ -23,14 +27,27 @@ export default function Application() {
           <ListsView
             lists={lists}
             selectedListIndex={selectedListIndex}
+            isCreating={isCreating}
+            isUpdating={isUpdating}
+            onUpdate={onUpdateList}
+            onCreate={onCreateList}
+            onDelete={onDeleteList}
             onSelect={onSelectList}
+            onStartCreating={onStartCreating}
+            onStartUpdating={onStartUpdating}
+            onStopEditing={onStopEditing}
           />
         </section>
         <section className="flex-1 bg-indigo-500">
           {lists[selectedListIndex] && (
             <TodosView
               todos={lists[selectedListIndex].todos}
-              onUpdateTodos={onUpdateTodos}
+              onUpdateTodos={todos =>
+                onUpdateList({
+                  index: selectedListIndex,
+                  fieldsToUpdate: { todos },
+                })
+              }
             />
           )}
         </section>

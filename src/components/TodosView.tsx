@@ -1,6 +1,6 @@
 import React from 'react';
 import useTodos from '../hooks/useTodos';
-import { Todo } from '../types';
+import { Todo, TodoList } from '../types';
 import TodoCard from './Todo'; // rename?
 import TodoAffordanceAndEditor from './TodoAffordanceAndEditor';
 import TodoEditor, { EditorType } from './TodoEditor';
