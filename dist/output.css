@@ -612,6 +612,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(21 128 61 / var(--tw-bg-opacity));
 }
 
+.p-3 {
+  padding: 0.75rem;
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -663,7 +667,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 @font-face {
   font-family: 'Ubuntu Mono';
 
-  src: url('../src/assets/fonts/UbuntuMono-Regular.ttf') format('ttf');
+  src: url('../src/assets/fonts/UbuntuMono-Regular.ttf') format('truetype');
 }
 
 body {
