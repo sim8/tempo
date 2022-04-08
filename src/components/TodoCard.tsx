@@ -6,7 +6,7 @@ export default function TodoCard({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={`flex items-center p-4 rounded-lg mb-2 ${className}`}
+      className={`flex items-center p-3 rounded-lg mb-2 text-lg ${className}`}
       {...divProps}
     />
   );
