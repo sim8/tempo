@@ -19,10 +19,10 @@ export default function PersistenceProvider({
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    console.log(window.electron.store.get('foo'));
-    // electron.store.set('foo', 'bar');
-  }, []);
+  // useEffect(() => {
+  //   // console.log(window.electron.store.get('foo'));
+  //   // electron.store.set('foo', 'bar');
+  // }, []);
   // const storeRef = useRef(new Store());
   return (
     <PersistenceContext.Provider value={{}}>

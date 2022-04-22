@@ -1,28 +1,64 @@
 import React from 'react';
-import Todo from './Todo';
+import useTodos from '../hooks/useTodos';
+import { Todo, TodoList } from '../types';
+import TodoCard from './Todo'; // rename?
 import TodoAffordanceAndEditor from './TodoAffordanceAndEditor';
+import TodoEditor, { EditorType } from './TodoEditor';
 
-export default function TodosView() {
-  const MOCK_TODOS = [
-    'Read emails',
-    'Make progress on prototype',
-    'Rough structure for presentation',
-    'Plan team celebration',
-  ];
-  const selectedTodo = MOCK_TODOS[2];
+export default function TodosView({
+  todos,
+  onUpdateTodos,
+}: {
+  todos: Todo[];
+  onUpdateTodos: (todos: Todo[]) => void;
+}) {
+  const {
+    onCreateTodo,
+    onSelectTodo,
+    onUpdateTodo,
+    onMarkTodoComplete,
+    selectedTodoIndex,
+    onStartEditing,
+    onStopEditing,
+    isEditing,
+  } = useTodos(todos, onUpdateTodos);
   return (
     <div className="p-4 pt-8 flex flex-col h-full">
       <ul>
-        {MOCK_TODOS.map(todo => (
-          <li
-            key={todo}
-            className={todo === selectedTodo ? 'text-white' : 'text-slate-200'}
-          >
-            <Todo todo={todo} selected={todo === selectedTodo} />
-          </li>
-        ))}
+        {todos.map((todo, index) => {
+          const isSelected = selectedTodoIndex === index;
+          return (
+            <li
+              key={todo}
+              className={isSelected ? 'text-white' : 'text-slate-200'}
+            >
+              {isEditing && isSelected ? (
+                <TodoEditor
+                  onSave={next => onUpdateTodo({ index, todo: next })}
+                  onCancel={onStopEditing}
+                  editorType={EditorType.UPDATE}
+                  initialState={todo}
+                />
+              ) : (
+                <TodoCard
+                  todo={todo}
+                  selected={isSelected}
+                  onClick={() => {
+                    onSelectTodo(index);
+                  }}
+                  onToggleComplete={() => onMarkTodoComplete(index)}
+                />
+              )}
+            </li>
+          );
+        })}
       </ul>
-      <TodoAffordanceAndEditor />
+      <TodoAffordanceAndEditor
+        onCreate={onCreateTodo}
+        onCancel={onStopEditing}
+        isCreating={isEditing && selectedTodoIndex === null}
+        onStartCreating={() => onStartEditing(null)}
+      />
     </div>
   );
 }
