@@ -31,7 +31,7 @@ export default function ListAffordanceAndEditor({
       })}
       {...mouseEventHandlers}
       onClick={onStartCreating}
-      data-testid="List-affordance"
+      data-testid="list-affordance"
     >
       ___
     </div>
