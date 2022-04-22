@@ -36,7 +36,6 @@ describe('ListsViews', () => {
 
   test('can add list', () => {
     render(<Application />);
-
     // Input is not visible
     expect(screen.queryByTestId('list-name-input')).toBeNull();
     const listAffordance = screen.getByTestId('list-affordance');
@@ -60,7 +59,6 @@ describe('ListsViews', () => {
 
   test('can select list', () => {
     render(<Application />);
-    // none selected by default
     expect(screen.queryByText('Read emails')).toBeTruthy();
     expect(screen.queryByText('Biggy thinky')).toBeNull();
     const otherList = screen.getByText('Backlog');
