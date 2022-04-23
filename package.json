@@ -5,12 +5,14 @@
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "npm run start-electron & npm run tailwind-watch",
     "package": "electron-forge package",
-    "make": "electron-forge make",
+    "make": "npm run tailwind-compile-prod && electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
+    "start-electron": "electron-forge start",
     "tailwind-watch": "npx tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
+    "tailwind-compile-prod": "npx tailwindcss -i ./src/index.css -o ./dist/output.css --minify",
     "prettier-format": "prettier --config .prettierrc 'src/' --write",
     "test": "jest",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
